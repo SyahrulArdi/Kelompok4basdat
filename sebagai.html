@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WashUp - Select Role</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #F8FAFC; /* gray-50 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .selection-card {
+            background-color: white;
+            border-radius: 1.5rem; /* ~24px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            position: relative;
+            overflow: hidden; /* To contain the corner blobs */
+            padding: 2.5rem; /* ~40px */
+            max-width: 440px;
+            width: 100%;
+        }
+        .selection-card::before, .selection-card::after {
+            content: "";
+            position: absolute;
+            background-color: #EFF6FF; /* Blue-50 */
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: 0;
+        }
+        .selection-card::before {
+            width: 100px;
+            height: 100px;
+            top: -30px;
+            right: -30px;
+        }
+        .selection-card::after {
+            width: 120px;
+            height: 120px;
+            bottom: -40px;
+            left: -40px;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1; /* Ensure content is above the blobs */
+        }
+        .role-button {
+            border: 1px solid #D1D5DB; /* Gray-300 */
+            background-color: white;
+            padding: 0.75rem 0;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease-in-out;
+            color: #374151; /* Gray-700 */
+            font-weight: 500;
+            font-size: 1rem;
+            width: 100%;
+        }
+        .role-button:hover {
+            background-color: #F9FAFB; /* Gray-50 */
+            border-color: #9CA3AF; /* Gray-400 */
+        }
+        .role-icon {
+            height: 1.5rem; /* 24px */
+            width: 1.5rem;
+            margin-right: 0.75rem; /* 12px */
+            color: #4B5563; /* Gray-600 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="selection-card">
+        <div class="content-wrapper">
+            <div class="text-center mb-8">
+                <img src="image/logo.jpg" alt="WashUp Logo" class="h-12 mx-auto mb-4">
+                <h2 class="text-2xl font-semibold text-gray-800">WashUp</h2>
+                <p class="text-gray-500 text-sm mt-1">Please select your role to continue</p>
+            </div>
+
+            <form class="space-y-4">
+                
+                <a href="#" class="role-button">
+                    <svg class="role-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>Owner</span>
+                </a>
+
+                <a href="employee.html" class="role-button">
+                    <svg class="role-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 012-2h2a2 2 0 012 2v1m-4 0h4" />
+                    </svg>
+                    <span>Employee</span>
+                </a>
+
+                <a href="#" class="role-button">
+                    <svg class="role-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span>Customer</span>
+                </a>
+            </form>
+            
+            <p class="text-center text-sm text-gray-600 mt-8">
+                Go back to <a href="#" class="font-semibold text-blue-600 hover:text-blue-500">Homepage</a>
+            </p>
+
+        </div>
+    </div>
+
+</body>
+</html>
