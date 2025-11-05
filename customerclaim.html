@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voucher Wallet - Claim New Vouchers - WashUp</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8FAFC; /* gray-50 */
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem; /* py-3 px-5 */
+            border-radius: 0.5rem; /* rounded-lg */
+            color: #374151; /* gray-700 */
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            font-size: 0.95rem; /* 15px */
+        }
+        .sidebar-link:hover {
+            background-color: #F3F4F6; /* gray-100 */
+            color: #1F2937; /* gray-800 */
+        }
+        .sidebar-link.active {
+            background-color: #1D4ED8; /* blue-700 */
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px -1px rgba(29, 78, 216, 0.3), 0 2px 6px -1px rgba(29, 78, 216, 0.2);
+        }
+        .sidebar-link svg {
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+            margin-right: 0.75rem; /* mr-3 */
+        }
+
+        .tab-link {
+            @apply py-3 px-1 text-base font-medium text-gray-500 border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600;
+        }
+        .tab-link.active {
+            @apply text-blue-600 border-blue-600;
+        }
+
+        .voucher-pill {
+            @apply inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-white flex flex-col fixed h-full shadow-lg">
+            <div class="bg-blue-800 flex items-center space-x-3 py-6 px-6">
+                <img src="https://i.imgur.com/eBf7p2k.png" alt="WashUp Logo" class="h-10 w-10"> <div class="flex flex-col">
+                    <span class="text-xl font-bold text-white">WashUp</span>
+                    <span class="text-xs text-blue-200">Customer Dashboard</span>
+                </div>
+            </div>
+            
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+                    <span>New Order</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 00-1 1v1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1V5a1 1 0 00-1-1h-4V3a1 1 0 00-1-1H9z" /><path d="M11 6h3v1h-3V6zM11 8h3v1h-3V8zM11 10h3v1h-3v-1zM7 6h1v1H7V6zM7 8h1v1H7V8zM7 10h1v1H7v-1z" /></svg>
+                    <span>My Order</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
+                    <span>My Locations</span>
+                </a>
+                <a href="#" class="sidebar-link active">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h12v1a1 1 0 01-1 1H6a1 1 0 01-1-1zm1-4a1 1 0 000 2h10a1 1 0 100-2H5z" clip-rule="evenodd" /></svg>
+                    <span>Vouchers</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="ml-64 flex-1 p-8 bg-gray-100">
+            <header class="flex justify-end items-center space-x-5 mb-8">
+                <button class="text-gray-500 hover:text-gray-700 relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341A6.002 6.002 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                    <span class="absolute top-0 right-0 h-2 w-2 bg-blue-500 rounded-full"></span>
+                </button>
+                <button class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.096 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                </button>
+                <div class="flex items-center space-x-3">
+                    <img src="https://i.imgur.com/zrgdG2G.png" alt="Sarah Johnson" class="h-10 w-10 rounded-full"> <div>
+                        <span class="font-medium text-gray-800">Sarah Johnson</span>
+                        <span class="block text-sm text-gray-500">Customer</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900">Voucher Wallet</h1>
+                <p class="text-gray-600">Manage your discount vouchers and claim new offers</p>
+            </div>
+
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="flex space-x-8">
+                    <a href="#" class="tab-link">Available Vouchers</a>
+                    <a href="#" class="tab-link active">Claim New Vouchers</a>
+                </nav>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-600 rounded-lg">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20.25c.163.017.327.025.49.025.267 0 .53-.017.79-.049M13 4.025A9.001 9.001 0 0010 4c-4.418 0-8 3.582-8 8s3.582 8 8 8c.267 0 .53-.017.79-.049M10 20.25c.163.017.327.025.49.025.267 0 .53-.017.79-.049M10 20.25a8.96 8.96 0 00-4.47 1.25M18.21 16.999a8.96 8.96 0 01-4.47 1.251M13.21 4.025a8.96 8.96 0 014.47 1.25" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0zM10.5 8.5l-1 1" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0zM13.5 11.5l1-1" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">Grand Opening Discount</h3>
+                                    <span class="voucher-pill bg-purple-100 text-purple-800">Percentage</span>
+                                </div>
+                            </div>
+                            <button class="flex-shrink-0 bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-800">
+                                Use Voucher
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-6 py-4 grid grid-cols-2">
+                        <div>
+                            <span class="text-xs text-gray-500">Uses Remaining</span>
+                            <p class="text-base font-medium text-gray-900">3</p>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-500">Valid Until</span>
+                            <p class="text-base font-medium text-gray-900">Dec 31, 2024</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-green-600 rounded-lg">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.592.895M12 8V7m0 10v-1m-4-1h8m-4 0a5 5 0 01-5-5v-1a1 1 0 011-1h12a1 1 0 011 1v1a5 5 0 01-5 5z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">First Time Customer</h3>
+                                    <span class="voucher-pill bg-red-100 text-red-800">Value</span>
+                                </div>
+                            </div>
+                            <button class="flex-shrink-0 bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-800">
+                                Use Voucher
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-6 py-4 grid grid-cols-2">
+                        <div>
+                            <span class="text-xs text-gray-500">Uses Remaining</span>
+                            <p class="text-base font-medium text-gray-900">1</p>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-500">Valid Until</span>
+                            <p class="text-base font-medium text-gray-900">Jan 15, 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-orange-500 rounded-lg">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zM8 8H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V10a2 2 0 00-2-2h-4m-4 0a2 2 0 00-2-2h-2a2 2 0 00-2 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">Weekend Special</h3>
+                                    <span class="voucher-pill bg-purple-100 text-purple-800">Percentage</span>
+                                </div>
+                            </div>
+                            <button class="flex-shrink-0 bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-800">
+                                Use Voucher
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-6 py-4 grid grid-cols-2">
+                        <div>
+                            <span class="text-xs text-gray-500">Uses Remaining</span>
+                            <p class="text-base font-medium text-gray-900">2</p>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-500">Valid Until</span>
+                            <p class="text-base font-medium text-gray-900">Nov 30, 2024</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-xl shadow-sm">
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 text-blue-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                        <h4 class="text-sm font-semibold text-blue-800">Pro Tips</h4>
+                    </div>
+                    <ul class="mt-2 text-sm text-blue-700 list-disc list-inside space-y-1">
+                        <li>Claimed vouchers will appear in your "Available Vouchers" tab</li>
+                        <li>Check back regularly for new promotional offers</li>
+                        <li>Some vouchers may have usage limits or specific terms</li>
+                    </ul>
+                </div>
+
+            </div>
+            
+        </main>
+    </div>
+
+</body>
+</html>
