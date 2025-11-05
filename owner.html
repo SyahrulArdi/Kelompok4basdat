@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Dashboard - WashUp</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC; /* gray-50 */
+            color: #374151; /* gray-700 */
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            color: #374151; /* gray-700 */
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            font-size: 0.95rem;
+        }
+        .sidebar-link:hover {
+            background-color: #F3F4F6; /* gray-100 */
+            color: #1F2937; /* gray-800 */
+        }
+        .sidebar-link.active {
+            background-color: #3B82F6; /* blue-500 */
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px -1px rgba(59, 130, 246, 0.3), 0 2px 6px -1px rgba(59, 130, 246, 0.2);
+        }
+        .sidebar-link svg {
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+            margin-right: 0.75rem; /* mr-3 */
+        }
+
+        .stat-card-owner {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.04); /* shadow-md-light */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .stat-card-owner .icon-wrapper {
+            padding: 0.6rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bar chart */
+        .bar-chart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .bar-chart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .bar-label {
+            width: 100px; /* Fixed width for labels */
+            font-size: 0.875rem; /* text-sm */
+            color: #4B5563; /* gray-700 */
+            flex-shrink: 0;
+        }
+        .bar-wrapper {
+            flex-grow: 1;
+            height: 16px; /* Height of the bar */
+            border-radius: 0.25rem; /* rounded-sm */
+            background-color: #F3F4F6; /* gray-100 for background */
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 0.25rem;
+        }
+
+        /* Funnel chart */
+        .funnel-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .funnel-step {
+            position: relative;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-top: -1px; /* Overlap slightly */
+        }
+        .funnel-step.step-1 {
+            width: 80%;
+            background-color: #1D4ED8; /* blue-700 */
+            clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+            z-index: 4;
+        }
+        .funnel-step.step-2 {
+            width: 65%;
+            background-color: #3B82F6; /* blue-500 */
+            clip-path: polygon(15% 0%, 85% 0%, 85% 100%, 15% 100%);
+            z-index: 3;
+        }
+        .funnel-step.step-3 {
+            width: 50%;
+            background-color: #10B981; /* green-500 */
+            clip-path: polygon(15% 0%, 85% 0%, 85% 100%, 15% 100%);
+            z-index: 2;
+        }
+        .funnel-step.step-4 {
+            width: 35%;
+            background-color: #34D399; /* green-400 */
+            clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+            z-index: 1;
+        }
+        .funnel-label {
+            position: absolute;
+            right: -10px;
+            transform: translateX(100%);
+            white-space: nowrap;
+            font-size: 0.875rem;
+            color: #4B5563; /* gray-700 */
+        }
+        .funnel-label span {
+            font-weight: 600;
+            color: #1F2937; /* gray-800 */
+        }
+
+
+        /* SVG Charts */
+        .line-chart-svg {
+            width: 100%;
+            height: 220px;
+        }
+        .line-chart-svg .grid-line {
+            stroke: #F3F4F6; /* gray-100 */
+            stroke-width: 1;
+            stroke-dasharray: 2 3;
+        }
+        .line-chart-svg .chart-line {
+            stroke: #2563EB; /* blue-600 */
+            stroke-width: 2.5;
+            fill: none;
+        }
+        .line-chart-svg .point {
+            fill: #2563EB;
+            stroke: white;
+            stroke-width: 2;
+        }
+        .line-chart-svg .axis-label {
+            font-size: 11px;
+            fill: #6B7280; /* gray-500 */
+        }
+        .line-chart-svg .axis-label-y {
+            font-size: 11px;
+            fill: #6B7280; /* gray-500 */
+            text-anchor: end;
+        }
+
+        .pie-chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-white flex flex-col fixed h-full shadow-lg">
+            <div class="bg-blue-700 flex items-center space-x-3 py-6 px-6">
+                <img src="image/logo.jpg" alt="WashUp Logo" class="h-10 w-10">
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold text-white">WashUp</span>
+                    <span class="text-xs text-blue-200">Owner Portal</span>
+                </div>
+            </div>
+            
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="sidebar-link active">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0110 9c-1.55 0-2.94.7-3.83 1.79A6.97 6.97 0 005 16c0 .34.024.673.07 1h7.86zM6 20a2 2 0 002-2h4a2 2 0 002 2H6z" /></svg>
+                    <span>Employees</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.96.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.835 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.565 2.6 1.565 2.978 0a1.533 1.533 0 012.287-.947c1.372.835 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.565-.379 1.565-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.835-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" /></svg>
+                    <span>Services</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a1 1 0 011-1h5l4 4 4-4h5a1 1 0 011 1v5a.997.997 0 01-.293.707zM5 6h2v2H5V6zm4 0h2v2H9V6zm4 0h2v2h-2V6z" clip-rule="evenodd" /></svg>
+                    <span>Discounts</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0110 9c-1.55 0-2.94.7-3.83 1.79A6.97 6.97 0 005 16c0 .34.024.673.07 1h7.86zM6 20a2 2 0 002-2h4a2 2 0 002 2H6z" /></svg>
+                    <span>Customers</span>
+                </a>
+            </nav>
+
+            <div class="p-6 mt-auto border-t border-gray-200">
+                <a href="#" class="sidebar-link !px-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                    <span class="text-gray-700 font-medium">Sign Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="ml-64 flex-1 p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Executive Dashboard</h1>
+                    <p class="text-gray-600">Monitor your business performance and key metrics</p>
+                </div>
+                <div class="flex items-center space-x-5">
+                    <div class="relative">
+                        <label for="date-range" class="text-sm font-medium text-gray-600 mr-2">Date Range:</label>
+                        <select id="date-range" class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 text-gray-700 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>This Month</option>
+                            <option>This Year</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 top-6 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9z"/></svg>
+                        </div>
+                    </div>
+                    <button class="text-gray-500 hover:text-gray-700 relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341A6.002 6.002 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                        <span class_ ="absolute top-0 right-0 h-2 w-2 bg-blue-500 rounded-full"></span>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <img src="image/people.jpg" alt="Sarah Johnson" class="h-10 w-10 rounded-full">
+                        <div>
+                            <span class="font-medium text-gray-800">Sarah Johnson</span>
+                            <span class="block text-sm text-gray-500">Owner</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card-owner">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Total Revenue</p>
+                            <p class="text-3xl font-bold text-gray-900">$24,580</p>
+                        </div>
+                        <div class="icon-wrapper bg-green-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.592.895M12 8V7m0 10v-1m-4-1h8m-4 0a5 5 0 01-5-5v-1a1 1 0 011-1h12a1 1 0 011 1v1a5 5 0 01-5 5z" /></svg>
+                        </div>
+                    </div>
+                    <p class="text-sm font-medium text-green-600 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                        +12.5%
+                    </p>
+                </div>
+
+                <div class="stat-card-owner">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Total Orders</p>
+                            <p class="text-3xl font-bold text-gray-900">1,247</p>
+                        </div>
+                        <div class="icon-wrapper bg-blue-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        </div>
+                    </div>
+                    <p class="text-sm font-medium text-green-600 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                        +8.2%
+                    </p>
+                </div>
+
+                <div class="stat-card-owner">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">New Customers</p>
+                            <p class="text-3xl font-bold text-gray-900">156</p>
+                        </div>
+                        <div class="icon-wrapper bg-orange-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                        </div>
+                    </div>
+                    <p class="text-sm font-medium text-red-600 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 112 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        -3.1%
+                    </p>
+                </div>
+
+                <div class="stat-card-owner">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Avg. Order Value</p>
+                            <p class="text-3xl font-bold text-gray-900">$19.72</p>
+                        </div>
+                        <div class="icon-wrapper bg-purple-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                        </div>
+                    </div>
+                    <p class="text-sm font-medium text-green-600 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                        +4.8%
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Revenue Over Time</h2>
+                    <div class="relative h-72">
+                         <svg class="line-chart-svg" viewBox="0 0 600 220" preserveAspectRatio="xMinYMid meet">
+                            <text x="35" y="185" class="axis-label-y">2500</text>
+                            <text x="35" y="152.5" class="axis-label-y">3000</text>
+                            <text x="35" y="120" class="axis-label-y">3500</text>
+                            <text x="35" y="87.5" class="axis-label-y">4000</text>
+                            <text x="35" y="55" class="axis-label-y">4500</text>
+                            <text x="35" y="22.5" class="axis-label-y">5000</text>
+                            <text x="35" y="-10" class="axis-label-y">5500</text> <text class="axis-label" transform="rotate(-90)" x="-110" y="15">Revenue ($)</text>
+
+                            <line class="grid-line" x1="50" y1="185" x2="580" y2="185"/>
+                            <line class="grid-line" x1="50" y1="152.5" x2="580" y2="152.5"/>
+                            <line class="grid-line" x1="50" y1="120" x2="580" y2="120"/>
+                            <line class="grid-line" x1="50" y1="87.5" x2="580" y2="87.5"/>
+                            <line class="grid-line" x1="50" y1="55" x2="580" y2="55"/>
+                            <line class="grid-line" x1="50" y1="22.5" x2="580" y2="22.5"/>
+
+                            <polyline class="chart-line" points="80,143 160,164 240,98 320,120 400,44 480,66 560,77" />
+
+                            <circle class="point" cx="80" cy="143" r="4" />
+                            <circle class="point" cx="160" cy="164" r="4" />
+                            <circle class="point" cx="240" cy="98" r="4" />
+                            <circle class="point" cx="320" cy="120" r="4" />
+                            <circle class="point" cx="400" cy="44" r="4" />
+                            <circle class="point" cx="480" cy="66" r="4" />
+                            <circle class="point" cx="560" cy="77" r="4" />
+
+                            <text x="80" y="205" class="axis-label" text-anchor="middle">Mon</text>
+                            <text x="160" y="205" class="axis-label" text-anchor="middle">Tue</text>
+                            <text x="240" y="205" class="axis-label" text-anchor="middle">Wed</text>
+                            <text x="320" y="205" class="axis-label" text-anchor="middle">Thu</text>
+                            <text x="400" y="205" class="axis-label" text-anchor="middle">Fri</text>
+                            <text x="480" y="205" class="axis-label" text-anchor="middle">Sat</text>
+                            <text x="560" y="205" class="axis-label" text-anchor="middle">Sun</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Top Performing Services</h2>
+                    <div class="bar-chart-container">
+                        <div class="bar-chart-item">
+                            <span class="bar-label">Wash & Fold</span>
+                            <div class="bar-wrapper">
+                                <div class="bar-fill bg-blue-600" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-chart-item">
+                            <span class="bar-label">Dry Cleaning</span>
+                            <div class="bar-wrapper">
+                                <div class="bar-fill bg-blue-500" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-chart-item">
+                            <span class="bar-label">Express Wash</span>
+                            <div class="bar-wrapper">
+                                <div class="bar-fill bg-green-500" style="width: 45%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-chart-item">
+                            <span class="bar-label">Delicate Care</span>
+                            <div class="bar-wrapper">
+                                <div class="bar-fill bg-orange-500" style="width: 35%;"></div>
+                            </div>
+                        </div>
+                        <div class="bar-chart-item">
+                            <span class="bar-label">Comforter Clean</span>
+                            <div class="bar-wrapper">
+                                <div class="bar-fill bg-purple-500" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-2 px-1 pr-4" style="margin-left: 100px; padding-left: 1rem;">
+                        <span>0</span>
+                        <span>2k</span>
+                        <span>4k</span>
+                        <span>6k</span>
+                        <span>8k</span>
+                        <span>10k</span>
+                    </div>
+                    <p class="text-center text-xs text-gray-500 mt-1" style="margin-left: 100px; padding-left: 1rem;">Revenue ($)</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">New vs. Repeating Customers</h2>
+                    <div class="flex items-center justify-center h-64">
+                        <div class="relative w-52 h-52">
+                            <svg class="pie-chart-svg" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="25" fill="transparent" stroke="#60A5FA" stroke-width="50" />
+                                <circle cx="50" cy="50" r="25" fill="transparent" stroke="#2563EB" stroke-width="50"
+                                    stroke-dasharray="107.13 157.08"
+                                    transform="rotate(-90 50 50)" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex justify-center space-x-6 mt-4">
+                        <div class="flex items-center">
+                            <span class="block w-3 h-3 rounded-full bg-blue-400 mr-2"></span>
+                            <span class="text-sm text-gray-700">New Customers: <span class="font-medium">31.8%</span></span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="block w-3 h-3 rounded-full bg-blue-600 mr-2"></span>
+                            <span class="text-sm text-gray-700">Repeating Customers: <span class="font-medium">68.2%</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Active Order Funnel</h2>
+                    <div class="relative w-full h-64 flex items-center">
+                        <div class="funnel-container space-y-px">
+                            <div class="funnel-step step-1">
+                                <span class="funnel-label">Active: <span>250</span></span>
+                            </div>
+                            <div class="funnel-step step-2">
+                                <span class="funnel-label">In Progress: <span>180</span></span>
+                            </div>
+                            <div class="funnel-step step-3">
+                                <span class="funnel-label">Ready for Pickup: <span>120</span></span>
+                            </div>
+                            <div class="funnel-step step-4">
+                                <span class="funnel-label">Completed: <span>95</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
